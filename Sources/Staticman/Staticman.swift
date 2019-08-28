@@ -3,7 +3,7 @@ import SwiftMarkdown
 import Yams
 
 /// ContentItem structure
-struct ContentItem: Encodable {
+public struct ContentItem: Encodable {
 
   var title: String
   var status: String
@@ -13,7 +13,7 @@ struct ContentItem: Encodable {
 
 }
 
-class Staticman {
+public struct Staticman {
 
   var directory: String = ""
 
