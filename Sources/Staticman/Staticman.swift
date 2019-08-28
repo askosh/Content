@@ -18,28 +18,28 @@ public struct Staticman {
   var directory: String = ""
 
   /// Initialize
-  init(directory: String) {
+  public init(directory: String) {
 
     self.directory = directory
 
   }
 
   /// Returns a list of content items
-  func items() throws -> [ContentItem] {
+  public func items() throws -> [ContentItem] {
 
     return try! self.getItems()
 
   }
 
   /// Returns a single content item
-  func item(slug: String) throws -> ContentItem {
+  public func item(slug: String) throws -> ContentItem {
 
     return try! self.getItem(slug: slug)
 
   }
 
   /// Returns a single random item, except the one passed as `slug` (if provided)
-  func randomItem(exceptWithSlug: String? = nil) throws -> ContentItem {
+  public func randomItem(exceptWithSlug: String? = nil) throws -> ContentItem {
 
     let items = try! self.getItems()
 
