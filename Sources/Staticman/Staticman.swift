@@ -5,11 +5,11 @@ import Yams
 /// ContentItem structure
 public struct ContentItem: Encodable {
 
-  var title: String
-  var status: String
-  var slug: String
-  var date: String
-  var entry: String
+  public var title: String
+  public var status: String
+  public var slug: String
+  public var date: String
+  public var entry: String
 
 }
 
