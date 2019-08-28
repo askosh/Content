@@ -61,7 +61,7 @@ class Content {
 
     } else {
 
-      return items
+      return items.randomElement()!
 
     }
 
@@ -157,7 +157,7 @@ class Content {
       let status = yaml["status"] as! String
       let slug = yaml["slug"] as! String
       let date = yaml["date"] as! Date
-      let timeAgo = Utils().relativeTime(datetime: date)
+      let timeAgo = ContentUtils().relativeTime(datetime: date)
       let entry = item["entry"] as! String
 
       items.append(ContentItem(title: title, status: status, slug: slug, date: timeAgo, entry: entry))
