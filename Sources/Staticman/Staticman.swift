@@ -2,8 +2,8 @@ import Foundation
 import SwiftMarkdown
 import Yams
 
-/// ContentItem structure
-public struct ContentItem: Encodable {
+/// StaticItem structure
+public struct StaticItem: Encodable {
 
   public var title: String
   public var status: String
@@ -25,27 +25,27 @@ public struct Staticman {
   }
 
   /// Returns a list of content items
-  public func items() throws -> [ContentItem] {
+  public func items() throws -> [StaticItem] {
 
     return try! self.getItems()
 
   }
 
   /// Returns a single content item
-  public func item(slug: String) throws -> ContentItem {
+  public func item(slug: String) throws -> StaticItem {
 
     return try! self.getItem(slug: slug)
 
   }
 
   /// Returns a single random item, except the one passed as `slug` (if provided)
-  public func randomItem(exceptWithSlug: String? = nil) throws -> ContentItem {
+  public func randomItem(exceptWithSlug: String? = nil) throws -> StaticItem {
 
     let items = try! self.getItems()
 
     if exceptWithSlug != nil {
 
-      var itemsWithoutException: [ContentItem] = []
+      var itemsWithoutException: [StaticItem] = []
 
       for item in items {
 
@@ -143,12 +143,12 @@ public struct Staticman {
   }
 
   /// Get content items
-  private func getItems() throws -> [ContentItem] {
+  private func getItems() throws -> [StaticItem] {
 
     let contentFiles = try self.getContentFiles() 
     let parsedContent = try self.parseContentFiles(files: contentFiles)
     let sortedContent = try self.sortContentByDateDesc(content: parsedContent)
-    var items: [ContentItem] = []
+    var items: [StaticItem] = []
 
     for item in sortedContent {
 
@@ -160,7 +160,7 @@ public struct Staticman {
       let timeAgo = self.relativeTime(datetime: date)
       let entry = item["entry"] as! String
 
-      items.append(ContentItem(title: title, status: status, slug: slug, date: timeAgo, entry: entry))
+      items.append(StaticItem(title: title, status: status, slug: slug, date: timeAgo, entry: entry))
 
     }
 
@@ -169,10 +169,10 @@ public struct Staticman {
   }
 
   /// Get content item
-  private func getItem(slug: String) throws -> ContentItem {
+  private func getItem(slug: String) throws -> StaticItem {
 
     let items = try self.getItems()
-    var item: ContentItem!
+    var item: StaticItem!
 
     for i in items {
 

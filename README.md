@@ -23,7 +23,7 @@ To install Staticman, simply require it in your Package.swift file like this:
 
 ```Swift
 dependencies: [
-  .package(url: "https://github.com/askosh/staticman.git", from: "1.0.6")
+  .package(url: "https://github.com/askosh/staticman.git", from: "1.0.7")
 ]
 ```
 
@@ -40,6 +40,8 @@ let content = Staticman(directory: "./Blog/")
 let items = try content.items()
 ```
 
+This will return you an array of `StaticItem` objects.
+
 #### Retreving a specific item in a directory
 
 To retrieve a specific Staticman content in a directory, initialize Staticman and call `item(slug: String)` on it (where slug is corresponding with the YAML key `slug` in the file), like this:
@@ -51,7 +53,9 @@ let content = Staticman(directory: "./Blog/")
 let item = try content.item(slug: "hello-world")
 ```
 
-### Retrieving a random item in a directory
+This will return you a `StaticItem` object.
+
+#### Retrieving a random item in a directory
 
 To retrieve a random Staticman content in a directory, initialize Staticman and call `randomItem` on it, like this:
 
@@ -62,6 +66,8 @@ let content = Staticman(directory: "./Blog/")
 let item = try content.randomItem()
 ```
 
+This will return you a `StaticItem` object.
+
 You can also optionally pass it an argument `exceptWithSlug: String`, which would return a random item except the one provided in the slug (where slug is corresponding with the YAML key `slug` in the file), like this:
 
 ```Swift
@@ -70,3 +76,5 @@ import Staticman
 let content = Staticman(directory: "./Blog/")
 let item = try content.randomItem(exceptWithSlug: "hello-world")
 ```
+
+This will return you random a `StaticItem` object from the specified directory, except the one specified with the `exceptWithSlug: String` parameter.
