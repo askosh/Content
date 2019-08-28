@@ -16,3 +16,57 @@ title: Example page
 
 Example content in **Markdown** goes here.
 ```
+
+### Installation
+
+To install Staticman, simply require it in your Package.swift file like this:
+
+```Swift
+dependencies: [
+  .package(url: "https://github.com/askosh/staticman.git", from: "1.0.6")
+]
+```
+
+### Usage
+
+#### Retrieving all content in a directory
+
+To retrieve all of the Staticman content in a directory, simply initialize Staticman with your provided directory and call `items()` on it, like this:
+
+```Swift
+import Staticman
+
+let content = Staticman(directory: "./Blog/")
+let items = try content.items()
+```
+
+#### Retreving a specific item in a directory
+
+To retrieve a specific Staticman content in a directory, initialize Staticman and call `item(slug: String)` on it (where slug is corresponding with the YAML key `slug` in the file), like this:
+
+```Swift
+import Staticman
+
+let content = Staticman(directory: "./Blog/")
+let item = try content.item(slug: "hello-world")
+```
+
+### Retrieving a random item in a directory
+
+To retrieve a random Staticman content in a directory, initialize Staticman and call `randomItem` on it, like this:
+
+```Swift
+import Staticman
+
+let content = Staticman(directory: "./Blog/")
+let item = try content.randomItem()
+```
+
+You can also optionally pass it an argument `exceptWithSlug: String`, which would return a random item except the one provided in the slug (where slug is corresponding with the YAML key `slug` in the file), like this:
+
+```Swift
+import Staticman
+
+let content = Staticman(directory: "./Blog/")
+let item = try content.randomItem(exceptWithSlug: "hello-world")
+```
