@@ -13,7 +13,7 @@ struct ContentItem: Encodable {
 
 }
 
-class Content {
+class Staticman {
 
   var directory: String = ""
 
