@@ -17,6 +17,22 @@ title: Example page
 Example content in **Markdown** goes here.
 ```
 
+This would create the following `StaticItem` object: 
+
+```Swift
+public struct StaticItem: Encodable {
+
+  public var title: String
+  public var status: String
+  public var slug: String
+  public var date: String
+  public var entry: String
+
+}
+```
+
+Currently all of these are required, but I will probably make some of these optional in a later release.
+
 ### Installation
 
 To install Staticman, simply require it in your Package.swift file like this:
