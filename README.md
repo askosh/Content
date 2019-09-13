@@ -36,7 +36,7 @@ To install Staticman, simply require it in your Package.swift file like this:
 
 ```Swift
 dependencies: [
-  .package(url: "https://github.com/askosh/staticman.git", from: "1.0.7")
+  .package(url: "https://github.com/askosh/staticman.git", from: "1.0.8")
 ]
 ```
 
