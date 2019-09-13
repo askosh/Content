@@ -5,10 +5,7 @@ import Yams
 /// StaticItem structure
 public struct StaticItem: Encodable {
 
-  public var title: String
-  public var status: String
-  public var slug: String
-  public var date: String
+  public var meta: [String: String]
   public var entry: String
 
 }
@@ -39,6 +36,7 @@ public struct Staticman {
   }
 
   /// Returns a single random item, except the one passed as `slug` (if provided)
+  /// If the slug is provided, it will filter out all of those that have meta.status as `private`.
   public func randomItem(exceptWithSlug: String? = nil) throws -> StaticItem {
 
     let items = try! self.getItems()
@@ -49,7 +47,7 @@ public struct Staticman {
 
       for item in items {
 
-        if item.slug != exceptWithSlug && item.status != "private" {
+        if item.meta["slug"] != exceptWithSlug && item.meta["status"] != "private" {
 
           itemsWithoutException.append(item)
 
@@ -123,6 +121,7 @@ public struct Staticman {
 
   }
 
+  /*
   /// Sort content by date yaml key, in descending order
   private func sortContentByDateDesc(content: [[String: Any]]) throws -> [[String: Any]] {
     
@@ -140,27 +139,44 @@ public struct Staticman {
 
     return sortedContent
 
-  }
+  }*/
 
   /// Get content items
   private func getItems() throws -> [StaticItem] {
 
     let contentFiles = try self.getContentFiles() 
     let parsedContent = try self.parseContentFiles(files: contentFiles)
-    let sortedContent = try self.sortContentByDateDesc(content: parsedContent)
+    //let sortedContent = try self.sortContentByDateDesc(content: parsedContent)
     var items: [StaticItem] = []
 
-    for item in sortedContent {
+    for item in parsedContent {
 
+      var meta: [String: String] = [:]
       let yaml = item["yaml"] as! [String: Any]
-      let title = yaml["title"] as! String
-      let status = yaml["status"] as! String
-      let slug = yaml["slug"] as! String
-      let date = yaml["date"] as! Date
-      let timeAgo = self.relativeTime(datetime: date)
+
+      for i in yaml {
+
+        let key = i.key
+        let value = i.value
+
+        if key == "date" {
+
+          let date = value as! Date
+
+          meta[key] = date.toString(dateFormat: "yyyy-MM-dd HH:mm:ss")
+          meta["dateRelative"] = self.relativeTime(datetime: date)
+
+        } else {
+          
+          meta[key] = value as? String ?? ""
+
+        }
+
+      }
+
       let entry = item["entry"] as! String
 
-      items.append(StaticItem(title: title, status: status, slug: slug, date: timeAgo, entry: entry))
+      items.append(StaticItem(meta: meta, entry: entry))
 
     }
 
@@ -176,7 +192,7 @@ public struct Staticman {
 
     for i in items {
 
-      if i.slug == slug {
+      if i.meta["slug"] == slug {
 
         item = i
 
