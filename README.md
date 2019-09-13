@@ -22,10 +22,7 @@ This would create the following `StaticItem` object:
 ```Swift
 public struct StaticItem: Encodable {
 
-  public var title: String
-  public var status: String
-  public var slug: String
-  public var date: String
+  public var meta: [String: String]
   public var entry: String
 
 }
