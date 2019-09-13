@@ -40,6 +40,12 @@ dependencies: [
 ]
 ```
 
+### Changelog
+
+#### 0.0.8
+
+- There are no more fixed YAML items, which means you can access any YAML metadata in your Markdown file!
+
 ### Usage
 
 #### Retrieving all content in a directory
