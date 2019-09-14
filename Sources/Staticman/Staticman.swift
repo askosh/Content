@@ -173,7 +173,7 @@ public struct Staticman {
   private func getItems() throws -> [StaticItem] {
 
     let contentFiles = try self.getContentFiles() 
-    var content = try self.parseContentFiles(files: contentFiles)
+    let content = try self.parseContentFiles(files: contentFiles)
     var items: [StaticItem] = []
 
     for item in content {
