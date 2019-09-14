@@ -13,11 +13,25 @@ public struct StaticItem: Encodable {
 public struct Staticman {
 
   var directory: String = ""
+  var orderBy: String = ""
+  var order: String = ""
 
   /// Initialize
-  public init(directory: String) {
+  public init(directory: String, orderBy: String? = "", order: String? = "") {
 
     self.directory = directory
+
+    if orderBy != "" {
+
+      self.orderBy = orderBy!
+
+    }
+
+    if order != "" {
+
+      self.order = order!
+      
+    }
 
   }
 
@@ -121,35 +135,48 @@ public struct Staticman {
 
   }
 
-  /*
-  /// Sort content by date yaml key, in descending order
-  private func sortContentByDateDesc(content: [[String: Any]]) throws -> [[String: Any]] {
+  /// Sort items by meta key, in descending order
+  private func sortItemsByKeyDesc(key: String, items: [StaticItem]) throws -> [StaticItem] {
     
-    let sortedContent = content.sorted(by: { (x, y) in
+    let sortedContent = items.sorted(by: { (x, y) in
 
-      let yamlA = x["yaml"] as! [String: Any]
-      let yamlB = y["yaml"] as! [String: Any]
-      let dateA = yamlA["date"] as! Date
-      let dateB = yamlB["date"] as! Date
+      let a = x.meta[key]!
+      let b = y.meta[key]!
 
-      return dateA > dateB
+      return a > b
 
 
     })
 
     return sortedContent
 
-  }*/
+  }
+
+  /// Sort items by meta key, in ascending order
+  private func sortItemsByKeyAsc(key: String, items: [StaticItem]) throws -> [StaticItem] {
+    
+    let sortedContent = items.sorted(by: { (x, y) in
+
+      let a = x.meta[key]!
+      let b = y.meta[key]!
+
+      return a < b
+
+
+    })
+
+    return sortedContent
+
+  }
 
   /// Get content items
   private func getItems() throws -> [StaticItem] {
 
     let contentFiles = try self.getContentFiles() 
-    let parsedContent = try self.parseContentFiles(files: contentFiles)
-    //let sortedContent = try self.sortContentByDateDesc(content: parsedContent)
+    var content = try self.parseContentFiles(files: contentFiles)
     var items: [StaticItem] = []
 
-    for item in parsedContent {
+    for item in content {
 
       var meta: [String: String] = [:]
       let yaml = item["yaml"] as! [String: Any]
@@ -177,6 +204,29 @@ public struct Staticman {
       let entry = item["entry"] as! String
 
       items.append(StaticItem(meta: meta, entry: entry))
+
+    }
+
+    /// Order
+    if self.orderBy != "" {
+
+      var order = "desc"
+
+      if self.order != "" {
+
+        order = self.order
+
+      }
+
+      if order == "desc" {
+
+        items = try self.sortItemsByKeyDesc(key: self.orderBy, items: items)
+
+      } else {
+
+        items = try self.sortItemsByKeyAsc(key: self.orderBy, items: items)
+
+      }
 
     }
 
