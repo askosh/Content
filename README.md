@@ -42,7 +42,7 @@ dependencies: [
 
 ### Changelog
 
-### 1.0.9
+#### 1.0.9
 
 - You can now sort your items by initializing `Staticman` with a few extra parameters, such as `orderBy` and `order`.
 - If you're trying to pull content via `item`, it now returns an empty `StaticItem` object instead of throwing an error.
