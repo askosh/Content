@@ -250,6 +250,12 @@ public struct Staticman {
 
     }
 
+    if item == nil {
+
+      return StaticItem(meta: [:], entry: "")
+
+    }
+
     return item
 
   }
