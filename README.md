@@ -36,13 +36,18 @@ To install Staticman, simply require it in your Package.swift file like this:
 
 ```Swift
 dependencies: [
-  .package(url: "https://github.com/askosh/staticman.git", from: "1.0.8")
+  .package(url: "https://github.com/askosh/staticman.git", from: "1.0.9")
 ]
 ```
 
 ### Changelog
 
-#### 0.0.8
+### 1.0.9
+
+- You can now sort your items by initializing `Staticman` with a few extra parameters, such as `orderBy` and `order`.
+- If you're trying to pull content via `item`, it now returns an empty `StaticItem` object instead of throwing an error.
+
+#### 1.0.8
 
 - There are no more fixed YAML items, which means you can access any YAML metadata in your Markdown file!
 
@@ -97,3 +102,15 @@ let item = try content.randomItem(exceptWithSlug: "hello-world")
 ```
 
 This will return you random a `StaticItem` object from the specified directory, except the one specified with the `exceptWithSlug: String` parameter.
+
+#### Ordering content
+
+You can order content by any meta key in descending or ascending order. For example; if we want to order content by the meta key `date` in a descending order, we would do the following:
+
+```Swift
+import Staticman
+
+let content = Staticman(directory: "./Blog/", orderBy: "date", order: "desc")
+```
+
+Likewise if you want it to be in ascending order, simply change `order` to `asc`. 
